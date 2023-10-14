@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Task_Category{
 	private long Task_CatID;
-	private String Task_Category, inMessage;
+	private String Task_Category, inMessage,Category_Description;
 	
 	//private void initTaskCat () {
 		//Init Max toy_poodle red ring 6.9 0.8 chicken sunny
@@ -17,9 +17,10 @@ public class Task_Category{
 		//System.out.println(this.Task_CatID+" "+ this.Task_Category);
 		//}
 	
-	public String Messenger(String inMessage, String category) {
+	public String Messenger(String inMessage, String category, String Category_Description) {
 		this.inMessage = inMessage;
 		this.Task_Category= category;
+		this.Category_Description=Category_Description;
 		String outMessage = "[Null]";
 		//if (inMessage.substring(0,4).equals("Init")) {initTaskCat();}
 		Insert();
@@ -37,16 +38,51 @@ public class Task_Category{
   		inMessage = inMessage.substring(1);
   		return addto;
   	}
+	
+	static public String[]CategoryInfo(){
+		Map<Integer,String> TransferMap= new HashMap<Integer,String>();
+		int count=0;
+	try {
+		Connection con=DB_Connectivity.DB_Connector();
+		String query="SELECT DISTINCT Task_Category, Category_Description FROM task_category ORDER BY Task_Category ";		
+		Statement stmnt=con.createStatement();
+		ResultSet rslt=stmnt.executeQuery(query);
+		int count2=0;
+		while(rslt.next()) {
+		String TaskCat=rslt.getString(1);
+		String CatDesc=rslt.getString(2);
+		String CatInfo=TaskCat+": "+CatDesc;
+		System.out.println(CatInfo);
+		TransferMap.put(count2,CatInfo);
+		System.out.println(TransferMap);
+		count++;
+		count2++;
+		}
+	}
+	catch(Exception e) {
+		System.out.println("Exception thrown trying to retrieve Task Category and Task Description.");
+	}
+	String[]CatInfoArr=new String[count];
+	System.out.println(TransferMap);
+	for(int r=0;r<TransferMap.size();r++) {
+		String TransferString=TransferMap.get(r);
+		CatInfoArr[r]=TransferString;
+	}
+	for(int r=0;r<CatInfoArr.length;r++) {
+	}
+	return CatInfoArr;
+	}
 	public void Insert() {
 		try {
 		Connection con=DB_Connectivity.DB_Connector();	
 		//The question marks are parameters you can fill with variables
-		String query="INSERT INTO task_category(Task_Category) VALUES (?)";
+		String query="INSERT INTO task_category(Task_Category,Category_Description) VALUES (?,?)";
 		//This allows for queries(beyond just selecting) to be executed in the code
 		PreparedStatement pstmnt=con.prepareStatement(query);
 		//these statements set the parameters with the numbers preceding the attributes designating their position
 		//in the query
 		pstmnt.setString(1,this.Task_Category);
+		pstmnt.setString(2,this.Category_Description);
 		//This executes any updates to the database (updating, deleting, create, dropping and inserting)
 		pstmnt.executeUpdate();
 		//This closes the database connection.

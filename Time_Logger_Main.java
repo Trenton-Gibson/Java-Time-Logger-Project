@@ -48,7 +48,7 @@ public class Time_Logger_Main  {
 		//and the newly created task needs the new Task_Category_ID.
 		//Therefore it's necessary that the data must be added in this
 		//order: Task_Category, Tasks, and finally Time_Transactions
-		TaskCat.Messenger(Init, category);
+		//TaskCat.Messenger(Init, category);
 		Task.Messenger(Init,Task_Type,Description);
 		Transaction.Messenger(Init,StartDate,Start_Day_of_Week,End_Day_of_Week,EndDate,EndTime,StartTime,Hours);
 	}

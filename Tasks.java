@@ -8,12 +8,12 @@ import java.sql.Statement;
 
 public class Tasks {
 long Task_ID,Task_CatID;
-String Task_Type,inMessage,Description;
-public String Messenger(String inMessage, String Task_Type,String Description) {
+String Task_Type,inMessage,Task_Description;
+public String Messenger(String inMessage, String Task_Type,String Task_Description) {
 	this.inMessage = inMessage;
 	this.Task_Type= Task_Type;
 	this.Task_CatID=Task_CatID;
-	this.Description=Description;
+	this.Task_Description=Task_Description;
 	try {
 	Connection con=DB_Connectivity.DB_Connector();
 	Statement stmnt=con.createStatement();
@@ -50,7 +50,7 @@ public void Insert() {
 	//in the query
 	pstmnt.setString(1,this.Task_Type);
 	pstmnt.setLong(2,this.Task_CatID);
-	pstmnt.setString(3, this.Description);
+	pstmnt.setString(3, this.Task_Description);
 	//This executes any updates to the database (updating, deleting, create, dropping and inserting)
 	pstmnt.executeUpdate();
 	//This closes the database connection.
